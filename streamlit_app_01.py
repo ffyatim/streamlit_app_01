@@ -261,9 +261,11 @@ def main() :
         st.markdown("<u>Liste des 10 dossiers proches :</u>", unsafe_allow_html=True)
 
         # Extraire l'observation du client choisi 
-        x_new = pd.DataFrame(sample.iloc[chk_id:chk_id+1,])
+		X = sample.iloc[:, :-1]
+        x_new = X[X.index == chk_id]
+#        x_new = pd.DataFrame(sample.iloc[chk_id:chk_id+1,])
         # Definir un ficbhier ne contenant pas le client choisi
-        samples = sample.drop(chk_id)
+        samples = X.drop(chk_id)
         # Definir le modele de Nearest observations, avec une observation la + proche
         neigh_model = NearestNeighbors(n_neighbors=1)
         # Fiter le modele
