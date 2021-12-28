@@ -277,21 +277,21 @@ def main() :
 #         knn = load_knn(sample)
         st.markdown("<u>Liste des 10 dossiers proches :</u>", unsafe_allow_html=True)
 
-    # Choisir un client - Index
-    rank_client = chk_id
-    # Extraire son observation
-    x_new = pd.DataFrame(X_test.iloc[rank_client:rank_client+1,])
-    # Definir un ficbhier ne contenant pas le client choisi
-    samples = sample.drop(rank_client)
-    # Definir le modele de Nearest observations, avec une observation la + proche
-    neigh_model = NearestNeighbors(n_neighbors=1)
-    # Fiter le modele
-    neigh_model.fit(samples)
-    # Extraire les 10 observations les + proches 
-    neigh_indices = neigh_model.kneighbors(x_new, 10, return_distance=False)
-    # Afficher les observations 
-    index_list = neigh_indices[0]
-    shows = sample.loc[sample.index[index_list]]
+        # Choisir un client - Index
+        rank_client = chk_id
+        # Extraire son observation
+        x_new = pd.DataFrame(X_test.iloc[rank_client:rank_client+1,])
+        # Definir un ficbhier ne contenant pas le client choisi
+        samples = sample.drop(rank_client)
+        # Definir le modele de Nearest observations, avec une observation la + proche
+        neigh_model = NearestNeighbors(n_neighbors=1)
+        # Fiter le modele
+        neigh_model.fit(samples)
+        # Extraire les 10 observations les + proches 
+        neigh_indices = neigh_model.kneighbors(x_new, 10, return_distance=False)
+        # Afficher les observations 
+        index_list = neigh_indices[0]
+        shows = sample.loc[sample.index[index_list]]
 
 #        AgGrid(shows, height=500, fit_columns_on_grid_load=True)
   
