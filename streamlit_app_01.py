@@ -262,10 +262,10 @@ def main() :
                 else :
                     step = float((value_max - value_min) / 20)
                 update_val = st.sidebar.slider(label = 'Nouvelle valeur (valeur d\'origine : ' + str(default_value)[:4] + ')',
-                    min_value = value_min,
-                    max_value = value_max,
+                    min_value = float(value_min),
+                    max_value = float(value_max),
                     value = default_value,
-                    step = step)
+                    step = float(step))
                 time.sleep(0.5)
                 proba_update = load_prediction(sample, chk_id)
                 if proba_update < 0.1:
