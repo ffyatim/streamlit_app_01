@@ -274,7 +274,7 @@ def main() :
         neigh_indices = neigh_model.kneighbors(x_new, 10, return_distance=False)
         # Afficher les observations 
         index_list = neigh_indices[0]
-        shows = samples.loc[samples.index[index_list]]
+        shows = data.loc[data.index[index_list]]
 
 #        AgGrid(shows, height=500, fit_columns_on_grid_load=True)
   
