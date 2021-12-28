@@ -2,7 +2,8 @@ import streamlit as st
 from pyngrok import ngrok
 import json
 from urllib.request import urlopen
-from sklearn.cluster import KMeans
+# from sklearn.cluster import KMeans
+from sklearn.neighbors import NearestNeighbors
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -12,11 +13,6 @@ import pickle
 
 from st_aggrid import AgGrid
 from st_aggrid.grid_options_builder import GridOptionsBuilder
-
-
-# plt.style.use('fivethirtyeight')
-# sns.set_style('darkgrid')
-# st.set_page_config(page_title="", layout="wide")
 
 def main() :
 
@@ -61,14 +57,7 @@ def main() :
         df_income = pd.DataFrame(sample["AMT_INCOME_TOTAL"])
         df_income = df_income.loc[df_income['AMT_INCOME_TOTAL'] < 200000, :]
         return df_income
-# 
-#     @st.cache
-#     def load_prediction(sample, id):
-#         # X=sample.iloc[:, :-1]
-#         X=sample.iloc[:,2:]
-#         score = clf.predict_proba(X[X.index == int(id)])[:,1]
-#         return score
-# 
+
     @st.cache
     def load_prediction(sample, id):
         # X=sample.iloc[:, :-1]
@@ -265,13 +254,47 @@ def main() :
     chk_voisins = st.checkbox("Affichier les dossiers de clients similaires ?")
 # 
 # #######################################################################
+#     if chk_voisins:
+#         knn = load_knn(sample)
+#         st.markdown("<u>Liste des 10 dossiers proches :</u>", unsafe_allow_html=True)
+# #        st.dataframe(load_kmeans(sample, chk_id, knn))
+#         shows = load_kmeans(sample, chk_id, knn)
+# #        AgGrid(shows, height=500, fit_columns_on_grid_load=True)
+#  
+#         gb = GridOptionsBuilder.from_dataframe(shows)
+# #        gb.configure_grid_options(domLayout='autoHeight')
+#         gb.configure_pagination()
+#         gridOptions = gb.build()
+#         AgGrid(shows, gridOptions=gridOptions)		
+# # 
+#         st.markdown("<i>Target 1 = Client en Défault</i>", unsafe_allow_html=True)
+#     else:
+#         st.markdown("<i>…</i>", unsafe_allow_html=True)
+# #######################################################################
+# DEBUT Ajout 29/12/2021
+# #######################################################################
     if chk_voisins:
-        knn = load_knn(sample)
+#         knn = load_knn(sample)
         st.markdown("<u>Liste des 10 dossiers proches :</u>", unsafe_allow_html=True)
-#        st.dataframe(load_kmeans(sample, chk_id, knn))
-        shows = load_kmeans(sample, chk_id, knn)
+
+    # Choisir un client - Index
+    rank_client = chk_id
+    # Extraire son observation
+    x_new = pd.DataFrame(X_test.iloc[rank_client:rank_client+1,])
+    # Definir un ficbhier ne contenant pas le client choisi
+    samples = sample.drop(rank_client)
+    # Definir le modele de Nearest observations, avec une observation la + proche
+    neigh_model = NearestNeighbors(n_neighbors=1)
+    # Fiter le modele
+    neigh_model.fit(samples)
+    # Extraire les 10 observations les + proches 
+    neigh_indices = neigh_model.kneighbors(x_new, 10, return_distance=False)
+    # Afficher les observations 
+    index_list = neigh_indices[0]
+    shows = sample.loc[sample.index[index_list]]
+
 #        AgGrid(shows, height=500, fit_columns_on_grid_load=True)
- 
+  
         gb = GridOptionsBuilder.from_dataframe(shows)
 #        gb.configure_grid_options(domLayout='autoHeight')
         gb.configure_pagination()
@@ -282,6 +305,9 @@ def main() :
     else:
         st.markdown("<i>…</i>", unsafe_allow_html=True)
 # #######################################################################
+# FIN Ajout 29/12/2021
+# #######################################################################
+# 
 # For debugging only .....
 # 
 #     st.markdown("<i>FOR DEBUGGING ONLY .....</i>", unsafe_allow_html=True)
