@@ -261,7 +261,8 @@ def main() :
                     step = float(1)
                 else :
                     step = float((value_max - value_min) / 20)
-                update_val = st.sidebar.slider(label = 'Nouvelle valeur (valeur d\'origine : ' + str(default_value)[:4] + ')',
+                default_value_str = str(default_value)[:4]
+                update_val = st.sidebar.slider(label = 'Nouvelle valeur (valeur d\'origine : ' + default_value_str + ')',
                     min_value = float(value_min),
                     max_value = float(value_max),
                     value = default_value,
