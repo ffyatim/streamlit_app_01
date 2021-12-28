@@ -246,15 +246,47 @@ def main() :
             list_features = description.index.to_list()
             feature = st.selectbox('Liste des variables …', list_features)
             st.table(description.loc[description.index == feature][:1])
+
+# #######################################################################
+# DEBUT Modif 29/12/2021 - 2
+# #######################################################################
+            if feature != '':
+                value_min = data[feature].min()
+                value_max = data[feature].max()
+                #st.write(list(explanation['feature'].values))
+                #st.write(explanation['feature'].values[0])
+                default_value = (value_min + value_max) / 2
+                #st.write(default_value)
+                if (value_min, value_max) == (0,1): 
+                    step = float(1)
+                else :
+                    step = float((value_max - value_min) / 20)
+                update_val = st.sidebar.slider(label = 'Nouvelle valeur (valeur d\'origine : ' + str(default_value)[:4] + ')',
+                    min_value = value_min,
+                    max_value = value_max,
+                    value = default_value,
+                    step = step)
+                time.sleep(0.5)
+                proba_update = load_prediction(sample, chk_id)
+                if proba_update < 0.1:
+                    etat = 'client à risque'
+                else:
+                    etat = 'client peu risqué'
+                chaine = 'Nouvelle prédiction : **' + etat +  '** avec **' + str(round((proba_update[0][1])*100)) \
+    				+ '%** de risque de défaut (classe réelle : '+str(classe_reelle) + ')'
+                st.sidebar.markdown(chaine)
+# #######################################################################
+# FIN Modif 29/12/2021 - 2
+# #######################################################################
+
 #        
     else:
         st.markdown("<i>…</i>", unsafe_allow_html=True)
 #         
     #Similar customer files display
     chk_voisins = st.checkbox("Affichier les dossiers de clients similaires ?")
-# 
-# #######################################################################
-# DEBUT Modif 29/12/2021
+# # #######################################################################
+# DEBUT Modif 29/12/2021 - 1 - OK Integree dans livrable
 # #######################################################################
     if chk_voisins:
 #         knn = load_knn(sample)
@@ -290,7 +322,7 @@ def main() :
     else:
         st.markdown("<i>…</i>", unsafe_allow_html=True)
 # #######################################################################
-# FIN Modif 29/12/2021
+# FIN Modif 29/12/2021 - 1 - OK Integree dans livrable
 # #######################################################################
 # 
 # For debugging only .....
