@@ -254,24 +254,7 @@ def main() :
     chk_voisins = st.checkbox("Affichier les dossiers de clients similaires ?")
 # 
 # #######################################################################
-#     if chk_voisins:
-#         knn = load_knn(sample)
-#         st.markdown("<u>Liste des 10 dossiers proches :</u>", unsafe_allow_html=True)
-# #        st.dataframe(load_kmeans(sample, chk_id, knn))
-#         shows = load_kmeans(sample, chk_id, knn)
-# #        AgGrid(shows, height=500, fit_columns_on_grid_load=True)
-#  
-#         gb = GridOptionsBuilder.from_dataframe(shows)
-# #        gb.configure_grid_options(domLayout='autoHeight')
-#         gb.configure_pagination()
-#         gridOptions = gb.build()
-#         AgGrid(shows, gridOptions=gridOptions)		
-# # 
-#         st.markdown("<i>Target 1 = Client en Défault</i>", unsafe_allow_html=True)
-#     else:
-#         st.markdown("<i>…</i>", unsafe_allow_html=True)
-# #######################################################################
-# DEBUT Ajout 29/12/2021
+# DEBUT Modif 29/12/2021
 # #######################################################################
     if chk_voisins:
 #         knn = load_knn(sample)
@@ -280,7 +263,7 @@ def main() :
         # Choisir un client - Index
         rank_client = chk_id
         # Extraire son observation
-        x_new = pd.DataFrame(X_test.iloc[rank_client:rank_client+1,])
+        x_new = pd.DataFrame(sample.iloc[rank_client:rank_client+1,])
         # Definir un ficbhier ne contenant pas le client choisi
         samples = sample.drop(rank_client)
         # Definir le modele de Nearest observations, avec une observation la + proche
@@ -305,7 +288,7 @@ def main() :
     else:
         st.markdown("<i>…</i>", unsafe_allow_html=True)
 # #######################################################################
-# FIN Ajout 29/12/2021
+# FIN Modif 29/12/2021
 # #######################################################################
 # 
 # For debugging only .....
