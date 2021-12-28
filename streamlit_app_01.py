@@ -250,7 +250,7 @@ def main() :
 # #######################################################################
 # DEBUT Modif 29/12/2021 - 2
 # #######################################################################
-            if feature != '':
+            if feature != '' and feature != 'SK_ID_CURR':
                 value_min = data[feature].min()
                 value_max = data[feature].max()
                 #st.write(list(explanation['feature'].values))
