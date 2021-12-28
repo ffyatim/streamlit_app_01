@@ -276,7 +276,7 @@ def main() :
         index_list = neigh_indices[0]
         shows = data.loc[data.index[index_list]]
         drop_cols = [0,2]
-        shows = shows.drop(shows.iloc[drop_cols])
+        shows = shows.drop(shows.columns[drop_cols], axis=1)
 
 #        AgGrid(shows, height=500, fit_columns_on_grid_load=True)
   
