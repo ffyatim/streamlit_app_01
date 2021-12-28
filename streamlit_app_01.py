@@ -261,7 +261,7 @@ def main() :
         st.markdown("<u>Liste des 10 dossiers proches :</u>", unsafe_allow_html=True)
 
         # Extraire l'observation du client choisi 
-		X = sample.iloc[:, :-1]
+        X = sample.iloc[:, :-1]
         x_new = X[X.index == chk_id]
 #        x_new = pd.DataFrame(sample.iloc[chk_id:chk_id+1,])
         # Definir un ficbhier ne contenant pas le client choisi
