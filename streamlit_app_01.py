@@ -265,7 +265,7 @@ def main() :
                 update_val = st.sidebar.slider(label = 'Nouvelle valeur (valeur d\'origine : ' + default_value_str + ')',
                     min_value = float(value_min),
                     max_value = float(value_max),
-                    value = default_value,
+                    value = float(default_value),
                     step = float(step))
                 time.sleep(0.5)
                 proba_update = load_prediction(sample, chk_id)
