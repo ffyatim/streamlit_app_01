@@ -247,7 +247,7 @@ def main() :
 # Modif 29/12 -------- Modif abondonnee car besoin API avec update variable
 #             list_features = description.index.to_list()
             list_features = X.columns.to_list()
-			list_features = list_features[,1:]
+            list_features = list_features[,1:]
 # END modif 29/12
 
             feature = st.selectbox('Liste des variables …', list_features)
