@@ -243,7 +243,12 @@ def main() :
         st.pyplot(fig)
 #         
         if st.checkbox("Besoins d'info detaillée sur variables ?") :
-            list_features = description.index.to_list()
+
+# Modif 29/12 -------- Modif abondonnee car besoin API avec update variable
+#             list_features = description.index.to_list()
+            list_features = X.columns.to_list()
+# END modif 29/12
+
             feature = st.selectbox('Liste des variables …', list_features)
             st.table(description.loc[description.index == feature][:1])
 #        
