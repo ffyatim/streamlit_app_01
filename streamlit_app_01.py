@@ -273,8 +273,7 @@ def main() :
                     etat = 'client à risque'
                 else:
                     etat = 'client peu risqué'
-                chaine = 'Nouvelle prédiction : **' + etat +  '** avec **' + str(round((proba_update[0][1])*100)) \
-    				+ '%** de risque de défaut'
+                chaine = 'Nouvelle prédiction : **' + etat +  '** avec **' + str(round((proba_update[0][1])*100)) + '%** de risque de défaut'
                 st.sidebar.markdown(chaine)
 # #######################################################################
 # FIN Modif 29/12/2021 - 2
