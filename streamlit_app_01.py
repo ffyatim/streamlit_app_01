@@ -243,7 +243,10 @@ def main() :
         st.pyplot(fig)
 #         
         if st.checkbox("Besoins d'info detaillée sur variables ?") :
-            list_features = description.index.to_list()
+# Modif 29/12
+#             list_features = description.index.to_list()
+            list_features = X.columns.to_list()
+# end modif 29/12
             feature = st.selectbox('Liste des variables …', list_features)
             st.table(description.loc[description.index == feature][:1])
 
@@ -268,6 +271,7 @@ def main() :
                     value = float(default_value),
                     step = float(step))
                 # time.sleep(0.5)
+				
                 proba_update = load_prediction(sample, chk_id)
                 if proba_update < 0.1:
                     etat = 'client à risque'
