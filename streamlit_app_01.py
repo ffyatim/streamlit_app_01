@@ -234,7 +234,7 @@ def main() :
         shap.initjs()
         X = sample.iloc[:, :-1]
         X = X[X.index == chk_id]
-        number = st.slider("Choisir le nombre de variables …", 0, 20, 5)
+        number = st.slider("Choisir le nonbre de variables …", 0, 20, 5)
 # 
         fig, ax = plt.subplots(figsize=(10, 10))
         explainer = shap.Explainer(clf)
@@ -243,54 +243,18 @@ def main() :
         st.pyplot(fig)
 #         
         if st.checkbox("Besoins d'info detaillée sur variables ?") :
-# Modif 29/12
-#             list_features = description.index.to_list()
-            list_features = X.columns.to_list()
-# end modif 29/12
+            list_features = description.index.to_list()
             feature = st.selectbox('Liste des variables …', list_features)
             st.table(description.loc[description.index == feature][:1])
-
-# #######################################################################
-# DEBUT Modif 29/12/2021 - 2
-# #######################################################################
-            if feature != '' and feature != 'SK_ID_CURR':
-                value_min = sample[feature].min()
-                value_max = sample[feature].max()
-                #st.write(list(explanation['feature'].values))
-                #st.write(explanation['feature'].values[0])
-                default_value = (value_min + value_max) / 2
-                #st.write(default_value)
-                if (value_min, value_max) == (0,1): 
-                    step = float(1)
-                else :
-                    step = float((value_max - value_min) / 20)
-                default_value_str = str(default_value)[:4]
-                update_val = st.sidebar.slider(label = 'Nouvelle valeur (valeur d\'origine : ' + default_value_str + ')',
-                    min_value = float(value_min),
-                    max_value = float(value_max),
-                    value = float(default_value),
-                    step = float(step))
-                # time.sleep(0.5)
-				
-                proba_update = load_prediction(sample, chk_id)
-                if proba_update < 0.1:
-                    etat = 'client à risque'
-                else:
-                    etat = 'client peu risqué'
-                chaine = 'Nouvelle prédiction : **' + etat +  '** avec **' + str(round(proba_update*100)) + '%** de risque de défaut'
-                st.sidebar.markdown(chaine)
-# #######################################################################
-# FIN Modif 29/12/2021 - 2
-# #######################################################################
-
 #        
     else:
         st.markdown("<i>…</i>", unsafe_allow_html=True)
 #         
     #Similar customer files display
     chk_voisins = st.checkbox("Affichier les dossiers de clients similaires ?")
-# # #######################################################################
-# DEBUT Modif 29/12/2021 - 1 - OK Integree dans livrable
+# 
+# #######################################################################
+# DEBUT Modif 29/12/2021
 # #######################################################################
     if chk_voisins:
 #         knn = load_knn(sample)
@@ -326,7 +290,7 @@ def main() :
     else:
         st.markdown("<i>…</i>", unsafe_allow_html=True)
 # #######################################################################
-# FIN Modif 29/12/2021 - 1 - OK Integree dans livrable
+# FIN Modif 29/12/2021
 # #######################################################################
 # 
 # For debugging only .....
