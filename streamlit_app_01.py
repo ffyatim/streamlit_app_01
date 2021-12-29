@@ -267,14 +267,14 @@ def main() :
                     max_value = float(value_max),
                     value = float(default_value),
                     step = float(step))
-                time.sleep(0.5)
+                # time.sleep(0.5)
                 proba_update = load_prediction(sample, chk_id)
                 if proba_update < 0.1:
                     etat = 'client à risque'
                 else:
                     etat = 'client peu risqué'
                 chaine = 'Nouvelle prédiction : **' + etat +  '** avec **' + str(round((proba_update[0][1])*100)) \
-    				+ '%** de risque de défaut (classe réelle : '+str(classe_reelle) + ')'
+    				+ '%** de risque de défaut'
                 st.sidebar.markdown(chaine)
 # #######################################################################
 # FIN Modif 29/12/2021 - 2
