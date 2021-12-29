@@ -234,7 +234,7 @@ def main() :
         shap.initjs()
         X = sample.iloc[:, :-1]
         X = X[X.index == chk_id]
-        number = st.slider("Choisir le nonbre de variables …", 0, 20, 5)
+        number = st.slider("Choisir le nombre de variables …", 0, 20, 5)
 # 
         fig, ax = plt.subplots(figsize=(10, 10))
         explainer = shap.Explainer(clf)
@@ -254,8 +254,8 @@ def main() :
 # DEBUT Modif 29/12/2021 - 2
 # #######################################################################
             if feature != '' and feature != 'SK_ID_CURR':
-                value_min = data[feature].min()
-                value_max = data[feature].max()
+                value_min = sample[feature].min()
+                value_max = sample[feature].max()
                 #st.write(list(explanation['feature'].values))
                 #st.write(explanation['feature'].values[0])
                 default_value = (value_min + value_max) / 2
