@@ -73,24 +73,22 @@ def main() :
     @st.cache(allow_output_mutation=True)
     def load_knn(sample):
         knn = KMeans(n_clusters=2).fit(sample)
-#        knn = knn_train(sample)
         return knn
 # 
     def load_kmeans(sample, id, knn):
         index = sample[sample.index == int(id)].index.values
         index = index[0]
         data_client = pd.DataFrame(sample.loc[sample.index, :])
-#        st.write(data_client)
         df_neighbors = pd.DataFrame(knn.fit_predict(data_client), index=data_client.index)
         df_neighbors = pd.concat([df_neighbors, data], axis=1)
         df_neighbors.drop(['index'], axis=1, inplace=True)
-#        df_neighbors.reset_index()
+
         return df_neighbors.iloc[:,2:].sample(10)
 # 
     def identite_client(data, id):
         data_client = data[data.index == int(id)]
         data_client['index'] = int(id)
-#        data_client.drop(['index'], axis=1, inplace=True)
+
         return data_client.iloc[:,2:]
 # 
     #Loading data……
@@ -145,10 +143,8 @@ def main() :
     #Display Customer ID from Sidebar
     st.write("***ID Client sélectionné:***", chk_id)
 
-
     #Customer information display : Customer Gender, Age, Family status, Children, …
     st.header("**Informations Client**")
-# 
 # ######################################################################
     if st.checkbox("Afficher informations client ?"):
 
@@ -244,11 +240,8 @@ def main() :
 #         
         if st.checkbox("Besoins d'info detaillée sur variables ?") :
 
-# Modif 29/12 -------- Modif abondonnee car besoin API avec update variable
-#             list_features = description.index.to_list()
             list_features = X.columns.to_list()
             list_features = list_features[1:]
-# END modif 29/12
 
             feature = st.selectbox('Liste des variables …', list_features)
             st.table(description.loc[description.index == feature][:1])
@@ -260,8 +253,6 @@ def main() :
     chk_voisins = st.checkbox("Affichier les dossiers de clients similaires ?")
 # 
 # #######################################################################
-# DEBUT Modif 29/12/2021
-# #######################################################################
     if chk_voisins:
 #         knn = load_knn(sample)
         st.markdown("<u>Liste des 10 dossiers proches :</u>", unsafe_allow_html=True)
@@ -269,7 +260,6 @@ def main() :
         # Extraire l'observation du client choisi 
         X = sample.iloc[:, :-1]
         x_new = X[X.index == chk_id]
-#        x_new = pd.DataFrame(sample.iloc[chk_id:chk_id+1,])
         # Definir un ficbhier ne contenant pas le client choisi
         samples = X.drop(chk_id)
         # Definir le modele de Nearest observations, avec une observation la + proche
@@ -283,8 +273,6 @@ def main() :
         shows = data.loc[data.index[index_list]]
         drop_cols = [0,2]
         shows = shows.drop(shows.columns[drop_cols], axis=1)
-
-#        AgGrid(shows, height=500, fit_columns_on_grid_load=True)
   
         gb = GridOptionsBuilder.from_dataframe(shows)
 #        gb.configure_grid_options(domLayout='autoHeight')
@@ -295,9 +283,6 @@ def main() :
         st.markdown("<i>Target 1 = Client en Défault</i>", unsafe_allow_html=True)
     else:
         st.markdown("<i>…</i>", unsafe_allow_html=True)
-# #######################################################################
-# FIN Modif 29/12/2021
-# #######################################################################
 # 
 # For debugging only .....
 # 
